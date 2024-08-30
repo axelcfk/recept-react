@@ -6,11 +6,13 @@ import Link from "next/link";
 
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
-  const placeholderImage = "spaghetti-bolognese.jpg";
 
+  const placeholderImage = "spaghetti-bolognese.jpg";
   const [searchedIngredients, setSearchedIngredients] = useState(null);
   const [searchedInstructions, setSearchedInstructions] = useState(null);
+  const [searchedName, setSearchedName] = useState(null);
   const [searchedImage, setSearchedImage] = useState(null);
+  const [searchedId, setSearchedId] = useState("null");
   const [name, setName] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [instruction, setInstruction] = useState("");
@@ -90,11 +92,11 @@ export default function Home() {
         ingredients.push(`${measure} ${ingredient}`.trim());
       }
     }
-    setId(id);
+    setSearchedId(id);
     setSearchedIngredients(ingredients);
     setSearchedInstructions(instructions);
     setSearchedImage(meal.strMealThumb);
-    setName(meal.strMeal);
+    setSearchedName(meal.strMeal);
 
     console.log(ingredients);
     console.log(instructions);
@@ -155,7 +157,7 @@ export default function Home() {
             Search
           </button>
           {searchButtonClicked && (
-            <Link href={id && `/recipe/${id}`}>
+            <Link href={searchedId && `/recipe/${searchedId}`}>
               <div className="flex bg-slate-400">
                 <div>
                   <img
@@ -165,7 +167,7 @@ export default function Home() {
                   />
                 </div>
                 <div>
-                  <h2>{name}</h2>
+                  <h2>{searchedName}</h2>
                 </div>
               </div>
             </Link>
