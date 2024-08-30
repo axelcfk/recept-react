@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import RecipeCard from "./component/RecipeCard";
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
 
@@ -86,7 +87,7 @@ export default function Home() {
         <h1>Recipes and stuff</h1>
         <h1>Add a new recipe</h1>
         <div>
-          <form id="form">
+          <form id="">
             <div>
               <h2>Name</h2>
               <input
@@ -118,9 +119,10 @@ export default function Home() {
             <h2>Image</h2>
             <input type="file" id="image" accept="image/*" />
 
-            <button onClick={(uploadImage, submitRecipe)} id="save">
-              Save Recipe
-            </button>
+         
+            <button onClick={(e) => { uploadImage(e); submitRecipe(e); }} id="save">
+  Save Recipe
+</button>
             {errorMessage !== "" && <p>{errorMessage}</p>}
           </form>
         </div>
@@ -134,7 +136,12 @@ export default function Home() {
           <div id="loginError"></div>
         </div>
 
-        <div id="recipeCardsContainer"></div>
+        <div className="flex w-[80%] gap-4">
+          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instructions={"mix the ingredients and flip the pancakes"}/>
+          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instructions={"mix the ingredients and flip the pancakes"}/>
+          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instructions={"mix the ingredients and flip the pancakes"}/>
+          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instructions={"mix the ingredients and flip the pancakes"}/>
+        </div>
       </div>
     </main>
   );
