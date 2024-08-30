@@ -1,9 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import Login from "./LogIn";
-
-import { useState } from "react";
 import RecipeCard from "./component/RecipeCard";
+
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
   const placeholderImage = "spaghetti-bolognese.jpg";
@@ -52,24 +51,18 @@ export default function Home() {
     if (name === "" || ingredients === "" || instruction === "") {
       setValid(false);
       setErrorMessage("All fields are required");
+      return;
+    } else {
+      setValid(true);
+      setErrorMessage("");
     }
 
     console.log("data är", name, ingredients, instruction);
 
     setMyRecipes((prevMyRecipes) => [
       ...prevMyRecipes,
-      { name: name, ingredients: ingredients, instruction: instruction, imgSrc: uploadedImage },
+      { name, ingredients, instruction, imgSrc: uploadedImage },
     ]);
-    // if (valid) {
-    //   createRecipeCard(name, ingredients, instruction, image);
-
-    // }
-    } else {
-      setValid(true);
-      setErrorMessage("");
-      console.log("Recipe submitted:", name, ingredients, instruction, image);
-      // createRecipeCard(name, ingredients, instruction, image); // Implement this function
-    }
   }
 
   // Search for a recipe
@@ -109,7 +102,11 @@ export default function Home() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full rounded-l-xl border-transparent bg-gray-100"
           />
-          <button onClick={searchRecipe} id="searchButton" className="rounded-r-xl border-transparent">
+          <button
+            onClick={searchRecipe}
+            id="searchButton"
+            className="rounded-r-xl border-transparent"
+          >
             Search
           </button>
         </div>
@@ -117,13 +114,7 @@ export default function Home() {
         <h1>Recipes and stuff</h1>
         <h1>Add a new recipe</h1>
         <div>
-          <form
-            onSubmit={(e) => {
-              submitRecipe(e);
-
-            }}
-            id=""
-          >
+          <form onSubmit={submitRecipe} id="">
             <div>
               <h2>Name</h2>
               <input
@@ -161,7 +152,6 @@ export default function Home() {
             />
 
             <button type="submit" id="save">
-            <button onClick={submitRecipe} id="save">
               Save Recipe
             </button>
             {errorMessage !== "" && <p>{errorMessage}</p>}
@@ -176,25 +166,18 @@ export default function Home() {
 
         <div className="flex w-[80%] gap-4">
           {myRecipes.length > 0
-            ? myRecipes.map((myRecipe, index) => {
-                return (
-                  <RecipeCard
-                    key={index}
-                    name={myRecipe.name}
-                    ingredients={myRecipe.ingredients}
-                    instruction={myRecipe.instruction}
-                    imgSrc={myRecipe.imgSrc}
-                  />
-                );
-              })
+            ? myRecipes.map((myRecipe, index) => (
+                <RecipeCard
+                  key={index}
+                  name={myRecipe.name}
+                  ingredients={myRecipe.ingredients}
+                  instruction={myRecipe.instruction}
+                  imgSrc={myRecipe.imgSrc}
+                />
+              ))
             : ""}
-          {/*  <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/>
-          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/>
-          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/>
-          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/> */}
         </div>
       </div>
     </main>
   );
 }
-
