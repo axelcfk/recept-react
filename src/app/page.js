@@ -4,8 +4,6 @@ import Login from "./LogIn";
 import RecipeCard from "./component/RecipeCard";
 import Link from "next/link";
 
-import { useState } from "react";
-import Link from "next/link";
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
   const placeholderImage = "spaghetti-bolognese.jpg";
