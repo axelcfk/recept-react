@@ -4,7 +4,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 import { useEffect, useState, useRef } from "react";
 
-export default function MoviePage() {
+export default function recipePage() {
   const params = useParams(); // Access dynamic parameters
   const router = useRouter(); // To handle navigation
 
@@ -27,7 +27,7 @@ export default function MoviePage() {
 
   return (
     <div>
-      {id && <h1>hejhejhej {id}</h1>}
+      {id && <h1>hejhejhej MY OWN RECIPE {id}</h1>}
     </div>
   );
 }

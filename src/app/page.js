@@ -1,8 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Login from "./LogIn";
 import RecipeCard from "./component/RecipeCard";
 import Link from "next/link";
+import { MyRecipesContext } from "../../myRecipesContext";
 
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -11,6 +12,7 @@ export default function Home() {
   const [searchedInstructions, setSearchedInstructions] = useState(null);
   const [searchedImage, setSearchedImage] = useState(null);
   const [name, setName] = useState("");
+  const [searchedName, setSearchedName] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [instruction, setInstruction] = useState("");
   const [image, setImage] = useState(placeholderImage);
@@ -18,10 +20,13 @@ export default function Home() {
   const [valid, setValid] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [id, setId] = useState("");
+  const [searchedId, setSearchedId] = useState("");
   const [searchButtonClicked, setSearchButtonClicked] = useState(false);
-  const [myRecipes, setMyRecipes] = useState([]);
+  //const [myRecipes, setMyRecipes] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  
+  const { myRecipes, addNewRecipe } = useContext(MyRecipesContext);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("isLoggedIn");
@@ -62,10 +67,25 @@ export default function Home() {
 
     console.log("data är", name, ingredients, instruction);
 
-    setMyRecipes((prevMyRecipes) => [
+
+    const allMyRecipeIndexes = [];
+
+    myRecipes.forEach((myRecipe) => {
+      if (myRecipe.myRecipeIndex !== undefined) {
+        allMyRecipeIndexes.push(myRecipe.myRecipeIndex);
+      }
+    });
+    
+    let newIndex = allMyRecipeIndexes.length + 1; // apparently index 0 doesnt work for routing
+    
+    console.log(newIndex);
+    
+    addNewRecipe(name, instruction, ingredients, uploadedImage, null, newIndex);
+    // uploadedImage is null if none uploaded
+    /* setMyRecipes((prevMyRecipes) => [
       ...prevMyRecipes,
       { name, ingredients, instruction, imgSrc: uploadedImage },
-    ]);
+    ]); */
   }
 
   // Search for a recipe
@@ -90,11 +110,11 @@ export default function Home() {
         ingredients.push(`${measure} ${ingredient}`.trim());
       }
     }
-    setId(id);
+    setSearchedId(id);
     setSearchedIngredients(ingredients);
     setSearchedInstructions(instructions);
     setSearchedImage(meal.strMealThumb);
-    setName(meal.strMeal);
+    setSearchedName(meal.strMeal);
 
     console.log(ingredients);
     console.log(instructions);
@@ -165,8 +185,9 @@ export default function Home() {
                   />
                 </div>
                 <div>
-                  <h2>{name}</h2>
+                  <h2>{searchedName}</h2>
                 </div>
+                <button onClick={() => {addNewRecipe(searchedName, searchedInstructions, searchedIngredients, searchedImage, searchedId, null)}}>Save Recipe</button>
               </div>
             </Link>
           )}
@@ -235,6 +256,8 @@ export default function Home() {
                     ingredients={myRecipe.ingredients}
                     instruction={myRecipe.instruction}
                     imgSrc={myRecipe.imgSrc}
+                    apiIndex={myRecipe.apiIndex}
+                    myRecipeIndex={myRecipe.myRecipeIndex}
                   />
                 );
               })
