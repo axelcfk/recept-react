@@ -4,18 +4,21 @@ import Login from "./LogIn";
 import RecipeCard from "./component/RecipeCard";
 import Link from "next/link";
 import { MyRecipesContext } from "../../myRecipesContext";
+import RandomRecipe from "./component/Random";
 
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
+
   const placeholderImage = "spaghetti-bolognese.jpg";
   const [searchedIngredients, setSearchedIngredients] = useState(null);
   const [searchedInstructions, setSearchedInstructions] = useState(null);
+  const [searchedName, setSearchedName] = useState(null);
   const [searchedImage, setSearchedImage] = useState(null);
+  const [searchedId, setSearchedId] = useState("null");
   const [name, setName] = useState("");
   const [searchedName, setSearchedName] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [instruction, setInstruction] = useState("");
-  const [image, setImage] = useState(placeholderImage);
   const [errorMessage, setErrorMessage] = useState("");
   const [valid, setValid] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -175,7 +178,7 @@ export default function Home() {
             Search
           </button>
           {searchButtonClicked && (
-            <Link href={id && `/recipe/${id}`}>
+            <Link href={searchedId && `/recipe/${searchedId}`}>
               <div className="flex bg-slate-400">
                 <div>
                   <img
@@ -263,6 +266,7 @@ export default function Home() {
               })
             : ""}
         </div>
+        <RandomRecipe />
       </div>
     </main>
   );
