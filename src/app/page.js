@@ -16,6 +16,7 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [valid, setValid] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [myRecipes, setMyRecipes] = useState([]);
 
   //ladda upp bild
   function uploadImage(e) {
@@ -42,6 +43,11 @@ export default function Home() {
     }
 
     console.log("data är", name, ingredients, instruction);
+
+    setMyRecipes((prevMyRecipes) => [
+      ...prevMyRecipes,
+      { name: name, ingredients: ingredients, instruction: instruction },
+    ]);
     // if (valid) {
     //   createRecipeCard(name, ingredients, instruction, image);
 
@@ -86,7 +92,13 @@ export default function Home() {
         <h1>Recipes and stuff</h1>
         <h1>Add a new recipe</h1>
         <div>
-          <form id="">
+          <form
+            onSubmit={(e) => {
+              submitRecipe(e);
+
+            }}
+            id=""
+          >
             <div>
               <h2>Name</h2>
               <input
@@ -118,10 +130,9 @@ export default function Home() {
             <h2>Image</h2>
             <input type="file" id="image" accept="image/*" />
 
-         
-            <button onClick={(e) => { uploadImage(e); submitRecipe(e); }} id="save">
-  Save Recipe
-</button>
+            <button type="submit" id="save">
+              Save Recipe
+            </button>
             {errorMessage !== "" && <p>{errorMessage}</p>}
           </form>
         </div>
@@ -136,10 +147,22 @@ export default function Home() {
         </div>
 
         <div className="flex w-[80%] gap-4">
-          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instructions={"mix the ingredients and flip the pancakes"}/>
-          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instructions={"mix the ingredients and flip the pancakes"}/>
-          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instructions={"mix the ingredients and flip the pancakes"}/>
-          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instructions={"mix the ingredients and flip the pancakes"}/>
+          {myRecipes.length > 0
+            ? myRecipes.map((myRecipe, index) => {
+                return (
+                  <RecipeCard
+                    key={index}
+                    name={myRecipe.name}
+                    ingredients={myRecipe.ingredients}
+                    instruction={myRecipe.instruction}
+                  />
+                );
+              })
+            : ""}
+          {/*  <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/>
+          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/>
+          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/>
+          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/> */}
         </div>
       </div>
     </main>
