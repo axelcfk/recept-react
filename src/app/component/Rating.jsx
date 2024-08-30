@@ -8,18 +8,23 @@ const Rating = ({ totalStars = 5 }) => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col justify-center items-center">
       {/* Rendera stjärnorna */}
-      {Array.from({ length: totalStars }, (_, index) => (
-        <Star
-          key={index}
-          filled={index < rating}
-          onClick={() => handleRating(index + 1)}
-        />
-      ))}
-      <p>
-        Your rating: {rating} / {totalStars}
-      </p>
+      <div>
+        {Array.from({ length: totalStars }, (_, index) => (
+          <Star
+            key={index}
+            filled={index < rating}
+            onClick={() => handleRating(index + 1)}
+          />
+        ))}
+      </div>
+      <div>
+
+        <p>
+          Your rating: {rating} / {totalStars}
+        </p>
+      </div>
     </div>
   );
 };

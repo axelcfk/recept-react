@@ -67,7 +67,7 @@ export default function Home() {
   }
 
   return (
-    <main>
+    <main className="">
       <nav className="bg-green-200 text-3xl px-10 flex justify-between">
         <h1>Best Recipes</h1>
         <div className="flex flex-row space-x-2">
@@ -147,7 +147,7 @@ export default function Home() {
           <div id="loginError"></div>
         </div>
 
-        <div className="flex w-[80%] gap-4">
+        <div className="flex gap-4 w-[80%] p-12 h-96 overflow-x-auto ">
           {myRecipes.length > 0
             ? myRecipes.map((myRecipe, index) => {
                 return (
@@ -161,10 +161,7 @@ export default function Home() {
                 );
               })
             : ""}
-          {/*  <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/>
-          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/>
-          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/>
-          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/> */}
+          
         </div>
       </div>
     </main>

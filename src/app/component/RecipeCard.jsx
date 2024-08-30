@@ -12,30 +12,20 @@ export default function RecipeCard({name, ingredients, instruction, imgSrc = nul
     )
   }
 
-  return (
-    <>
-      <div className="flex h-52 flex-col justify-evenly gap-4">
-        <figure className="mx-0 h-2/3"> {/* default 16px marginTop/Bot and 40px marginLeft/Right? */}
-          <div className="flex h-full w-full">
-            {imgSrc ? (<img src={imgSrc} alt="" className="h-full"/>) : (
-             <img src="/spaghetti-bolognese.jpg" alt="" className="h-full"/> 
+  return ( 
+      <div className="flex flex-col h-72 w-44 justify-between pb-4" style={{
+        boxShadow:"0 0 3rem rgba(0, 0, 0, 0.2)"
+      }}>
+          <div className="flex h-64 w-full flex-col items-center justify-start">
+            {imgSrc ? (<img src={imgSrc} alt="" className="w-full"/>) : (
+             <img src="/spaghetti-bolognese.jpg" alt="" className="w-full "/> 
             )}
 
-          </div>
-          <div className="flex flex-col w-full">
             <figcaption>{name}</figcaption>
-          </div>
-          </figure>
-
-          <div className="flex flex-col gap-4 h-1/3"> 
-
-           {/*  <div className="flex flex-col w-full gap-4">
-              <p>{ingredients}</p>
+          
             </div>
-            <div className="flex flex-col w-full gap-4">
-              <p>{instructions}</p>
-            </div> */}
-            <div>
+          <div className="flex flex-col gap-4 h-32 w-full justify-center items-center"> 
+            <div className="flex flex-col w-fit items-center">
               <LikeButton/>
               <Rating/>
 
@@ -50,6 +40,5 @@ export default function RecipeCard({name, ingredients, instruction, imgSrc = nul
 
 
       </div>
-    </>
   )
 }
