@@ -13,7 +13,7 @@ export default function RecipeCard({name, ingredients, instruction, imgSrc = nul
   }
 
   return ( 
-      <div className="flex flex-col h-72 w-44 justify-between pb-4" style={{
+      <div className="flex flex-col h-72 w-44 justify-between pb-4 flex-shrink-0" style={{
         boxShadow:"0 0 3rem rgba(0, 0, 0, 0.2)"
       }}>
           <div className="flex h-32 w-full flex-col items-center justify-start">
