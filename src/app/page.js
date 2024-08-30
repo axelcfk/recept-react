@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
 
@@ -15,6 +16,8 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [valid, setValid] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [id, setId] = useState("");
+  const [searchButtonClicked, setSearchButtonClicked] = useState(false);
 
   //ladda upp bild
   function uploadImage(e) {
@@ -57,6 +60,28 @@ export default function Home() {
 
     console.log(data);
     const meal = data.meals[0];
+    const instructions = meal.strInstructions;
+    const ingredients = [];
+    const id = meal.idMeal;
+
+    //loopar igenom all strIngredients och strMeasure
+    for (let i = 1; i <= 20; i++) {
+      const ingredient = meal[`strIngredient${i}`];
+      const measure = meal[`strMeasure${i}`];
+
+      if (ingredient && ingredient.trim()) {
+        ingredients.push(`${measure} ${ingredient}`.trim());
+      }
+    }
+    setId(id);
+    setSearchedIngredients(ingredients);
+    setSearchedInstructions(instructions);
+    setSearchedImage(meal.strMealThumb);
+    setName(meal.strMeal);
+
+    console.log(ingredients);
+    console.log(instructions);
+    console.log(meal.strMealThumb);
   }
 
   return (
@@ -69,9 +94,28 @@ export default function Home() {
           placeholder="search any recipe..."
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button onClick={searchRecipe} id="searchButton">
+
+        <button
+          onClick={() => {
+            searchRecipe();
+            setSearchButtonClicked(true);
+          }}
+          id="searchButton"
+        >
           Search
         </button>
+        {searchButtonClicked && (
+          <Link href={id && `/recipe/${id}`}>
+            <div className="flex bg-slate-400">
+              <div>
+                <img src={searchedImage} alt="Search Result" className="h-16" />
+              </div>
+              <div>
+                <h2>{name}</h2>
+              </div>
+            </div>
+          </Link>
+        )}
         <h1>Recipes and stuff</h1>
         <div>
           <form id="form">
@@ -106,7 +150,7 @@ export default function Home() {
             <h2>Image</h2>
             <input type="file" id="image" accept="image/*" />
 
-            <button onClick={(uploadImage, submitRecipe)} id="save">
+            <button onChange={(uploadImage, submitRecipe)} id="save">
               Save Recipe
             </button>
             {errorMessage !== "" && <p>{errorMessage}</p>}
