@@ -61,18 +61,29 @@ export default function Home() {
 
   return (
     <main>
-      <div>
-        <input
-          type="text"
-          name="search"
-          id="search"
-          placeholder="search any recipe..."
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button onClick={searchRecipe} id="searchButton">
-          Search
-        </button>
+      <nav className="bg-green-200 text-3xl px-10 flex justify-between">
+        <h1>Best Recipes</h1>
+        <div className="flex flex-row space-x-2">
+          <p>sök</p>
+          <p>gubbe</p>
+        </div>
+      </nav>
+      <div className="flex justify-center flex-col items-center px-40">
+        <div className="flex flex-row pt-20">
+          <input
+            type="text"
+            name="search"
+            id="search"
+            placeholder="search any recipe..."
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button onClick={searchRecipe} id="searchButton">
+            Search
+          </button>
+        </div>
+        <h1>My recipe list</h1>
         <h1>Recipes and stuff</h1>
+        <h1>Add a new recipe</h1>
         <div>
           <form id="form">
             <div>
