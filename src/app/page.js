@@ -1,10 +1,12 @@
 "use client";
+import { useState, useEffect } from "react";
+import Login from "./LogIn";
+import RecipeCard from "./component/RecipeCard";
 
 import { useState } from "react";
 import Link from "next/link";
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
-
   const placeholderImage = "spaghetti-bolognese.jpg";
   const [searchedIngredients, setSearchedIngredients] = useState(null);
   const [searchedInstructions, setSearchedInstructions] = useState(null);
@@ -18,8 +20,20 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [id, setId] = useState("");
   const [searchButtonClicked, setSearchButtonClicked] = useState(false);
+  const [myRecipes, setMyRecipes] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
 
-  //ladda upp bild
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("isLoggedIn");
+    const savedUsername = localStorage.getItem("username");
+    if (loggedInUser && savedUsername) {
+      setIsLoggedIn(true);
+      setUsername(savedUsername);
+    }
+  }, []);
+
+  // Upload image
   function uploadImage(e) {
     const file = e.target.files[0];
 
@@ -34,24 +48,28 @@ export default function Home() {
     }
   }
 
-  //submitta receptet och skapa kort
+  // Submit recipe and create card
   function submitRecipe(e) {
     e.preventDefault();
 
     if (name === "" || ingredients === "" || instruction === "") {
       setValid(false);
       setErrorMessage("All fields are required");
+      return;
+    } else {
+      setValid(true);
+      setErrorMessage("");
     }
 
     console.log("data är", name, ingredients, instruction);
-    // if (valid) {
-    //   createRecipeCard(name, ingredients, instruction, image);
 
-    // }
+    setMyRecipes((prevMyRecipes) => [
+      ...prevMyRecipes,
+      { name, ingredients, instruction, imgSrc: uploadedImage },
+    ]);
   }
 
-  //sök på recept
-
+  // Search for a recipe
   async function searchRecipe() {
     const response = await fetch(
       `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`
@@ -86,39 +104,55 @@ export default function Home() {
 
   return (
     <main>
-      <div>
-        <input
-          type="text"
-          name="search"
-          id="search"
-          placeholder="search any recipe..."
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+      <nav className="bg-green-200 text-3xl px-10 flex justify-between">
+        <h1>Best Recipes</h1>
+        <div className="flex flex-row space-x-2">
+          <p>Search</p>
+        </div>
+      </nav>
+      <div className="flex justify-center flex-col items-center px-40">
+        <div className="flex flex-row mt-20 h-16 justify-center w-96 rounded-xl">
+          <input
+            type="text"
+            name="search"
+            id="search"
+            placeholder="Search any recipe..."
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full rounded-l-xl border-transparent bg-gray-100"
+          />
 
-        <button
-          onClick={() => {
-            searchRecipe();
-            setSearchButtonClicked(true);
-          }}
-          id="searchButton"
-        >
-          Search
-        </button>
-        {searchButtonClicked && (
-          <Link href={id && `/recipe/${id}`}>
-            <div className="flex bg-slate-400">
-              <div>
-                <img src={searchedImage} alt="Search Result" className="h-16" />
+          <button
+            onClick={() => {
+              searchRecipe();
+              setSearchButtonClicked(true);
+            }}
+            id="searchButton"
+            className="rounded-r-xl border-transparent"
+          >
+            Search
+          </button>
+          {searchButtonClicked && (
+            <Link href={id && `/recipe/${id}`}>
+              <div className="flex bg-slate-400">
+                <div>
+                  <img
+                    src={searchedImage}
+                    alt="Search Result"
+                    className="h-16"
+                  />
+                </div>
+                <div>
+                  <h2>{name}</h2>
+                </div>
               </div>
-              <div>
-                <h2>{name}</h2>
-              </div>
-            </div>
-          </Link>
-        )}
+            </Link>
+          )}
+        </div>
+        <h1>My recipe list</h1>
         <h1>Recipes and stuff</h1>
+        <h1>Add a new recipe</h1>
         <div>
-          <form id="form">
+          <form onSubmit={submitRecipe} id="">
             <div>
               <h2>Name</h2>
               <input
@@ -148,64 +182,40 @@ export default function Home() {
             ></textarea>
 
             <h2>Image</h2>
-            <input type="file" id="image" accept="image/*" />
+            <input
+              type="file"
+              id="image"
+              accept="image/*"
+              onChange={uploadImage}
+            />
 
-            <button onChange={(uploadImage, submitRecipe)} id="save">
+            <button type="submit" id="save">
               Save Recipe
             </button>
             {errorMessage !== "" && <p>{errorMessage}</p>}
           </form>
         </div>
 
-        <div>
-          <input type="text" placeholder="Username" id="username" />
-          <input type="password" placeholder="password" id="password" />
-          <button type="submit" id="loginButton">
-            Login
-          </button>
-          <div id="loginError"></div>
-        </div>
+        <Login
+          setIsLoggedIn={setIsLoggedIn}
+          setUsername={setUsername}
+          isLoggedIn={isLoggedIn}
+        />
 
-        <div id="recipeCardsContainer"></div>
+        <div className="flex w-[80%] gap-4">
+          {myRecipes.length > 0
+            ? myRecipes.map((myRecipe, index) => (
+                <RecipeCard
+                  key={index}
+                  name={myRecipe.name}
+                  ingredients={myRecipe.ingredients}
+                  instruction={myRecipe.instruction}
+                  imgSrc={myRecipe.imgSrc}
+                />
+              ))
+            : ""}
+        </div>
       </div>
     </main>
   );
 }
-
-//funktion för att söka på recept
-// document
-//   .getElementById("searchButton")
-//   .addEventListener("click", async function () {
-//     const searchName = document.getElementById("search").value;
-
-//     const response = await fetch(
-//       `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchName}`
-//     );
-//     const data = await response.json();
-//     console.log(data);
-//     const meal = data.meals[0];
-//     const instructions = meal.strInstructions;
-//     const ingredients = [];
-
-//     //loopar igenom all strIngredients och strMeasure
-//     for (let i = 1; i <= 20; i++) {
-//       const ingredient = meal[`strIngredient${i}`];
-//       const measure = meal[`strMeasure${i}`];
-
-//       if (ingredient && ingredient.trim()) {
-//         ingredients.push(`${measure} ${ingredient}`.trim());
-//       }
-//     }
-
-//     searchedIngredients = ingredients;
-//     searchedInstructions = instructions;
-//     searchedImage = meal.strMealThumb;
-
-//     document.querySelector("form textarea").textContent = ingredients;
-//     document.querySelector("form textarea:nth-of-type(2)").textContent =
-//       instructions;
-//     document.querySelector("form input").value = searchName;
-
-//     console.log("ingredients are:", ingredients);
-//     console.log("Instructions are:", instructions);
-//   });
