@@ -155,6 +155,7 @@ export default function Home() {
           </Link>
         </div>
       </nav>
+      <Categories/>
       <div className="flex justify-center flex-col items-center px-40">
         <div className="flex flex-row mt-20 h-16 justify-center w-96">
           <input
