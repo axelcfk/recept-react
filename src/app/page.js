@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import Login from "./LogIn";
 import RecipeCard from "./component/RecipeCard";
-
 import Link from "next/link";
+
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
   const placeholderImage = "spaghetti-bolognese.jpg";
@@ -102,22 +102,46 @@ export default function Home() {
   }
 
   return (
-    <main>
+    <main className="">
       <nav className="bg-green-200 text-3xl px-10 flex justify-between">
         <h1>Best Recipes</h1>
-        <div className="flex flex-row space-x-2">
-          <p>Search</p>
+        <div className="flex flex-row space-x-4">
+          <Link href="/">
+            <button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="45"
+                viewBox="0 96 960 960"
+                width="45"
+              >
+                <path d="M796 936 536 676q-28 24-61.5 36.5T400 725q-90 0-152.5-62.5T185 510q0-90 62.5-152.5T400 295q90 0 152.5 62.5T615 510q0 35-12.5 68.5T566 640l260 260-30 36ZM400 675q66 0 112-46t46-112q0-66-46-112t-112-46q-66 0-112 46t-46 112q0 66 46 112t112 46Z" />
+              </svg>
+            </button>
+          </Link>
+          <Link href="/">
+            <button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="45"
+                viewBox="0 -960 960 960"
+                width="45"
+                fill="#000000"
+              >
+                <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
+              </svg>
+            </button>
+          </Link>
         </div>
       </nav>
       <div className="flex justify-center flex-col items-center px-40">
-        <div className="flex flex-row mt-20 h-16 justify-center w-96 rounded-xl">
+        <div className="flex flex-row mt-20 h-16 justify-center w-96">
           <input
             type="text"
             name="search"
             id="search"
             placeholder="Search any recipe..."
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-l-xl border-transparent bg-gray-100"
+            className="w-full rounded-l-xl bg-gray-100 border-transparent"
           />
 
           <button
@@ -182,10 +206,10 @@ export default function Home() {
 
             <h2>Image</h2>
             <input
+              onChange={uploadImage}
               type="file"
               id="image"
               accept="image/*"
-              onChange={uploadImage}
             />
 
             <button type="submit" id="save">
@@ -201,17 +225,19 @@ export default function Home() {
           isLoggedIn={isLoggedIn}
         />
 
-        <div className="flex w-[80%] gap-4">
+        <div className="flex gap-4 w-[80%] p-12 h-80 overflow-x-scroll flex-nowrap items-center">
           {myRecipes.length > 0
-            ? myRecipes.map((myRecipe, index) => (
-                <RecipeCard
-                  key={index}
-                  name={myRecipe.name}
-                  ingredients={myRecipe.ingredients}
-                  instruction={myRecipe.instruction}
-                  imgSrc={myRecipe.imgSrc}
-                />
-              ))
+            ? myRecipes.map((myRecipe, index) => {
+                return (
+                  <RecipeCard
+                    key={index}
+                    name={myRecipe.name}
+                    ingredients={myRecipe.ingredients}
+                    instruction={myRecipe.instruction}
+                    imgSrc={myRecipe.imgSrc}
+                  />
+                );
+              })
             : ""}
         </div>
       </div>
