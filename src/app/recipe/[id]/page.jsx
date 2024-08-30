@@ -1,10 +1,10 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 import { useEffect, useState, useRef } from "react";
 
-export default function MoviePage() {
+export default function Page() {
   const params = useParams();
   const recipeId = params.id;
   const router = useRouter();
@@ -13,15 +13,15 @@ export default function MoviePage() {
     router.back();
   };
 
-  useEffect(() => {
-    async function fetchRecipeDetails(recipeId) {
-      const response = await "";
-    }
-  }, []);
+  //   useEffect(() => {
+  //     async function fetchRecipeDetails(recipeId) {
+  //       const response = await "";
+  //     }
+  //   }, []);
 
   return (
     <div>
-      <h1>hejhejhej {recipeId}</h1>
+      {recipeId && <h1>hejhejhej {recipeId}</h1>}
     </div>
   );
 }
