@@ -4,6 +4,8 @@ import Login from "./LogIn";
 import RecipeCard from "./component/RecipeCard";
 import Link from "next/link";
 
+import { useState } from "react";
+import Link from "next/link";
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
   const placeholderImage = "spaghetti-bolognese.jpg";
@@ -17,6 +19,8 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [valid, setValid] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [id, setId] = useState("");
+  const [searchButtonClicked, setSearchButtonClicked] = useState(false);
   const [myRecipes, setMyRecipes] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
@@ -75,6 +79,28 @@ export default function Home() {
 
     console.log(data);
     const meal = data.meals[0];
+    const instructions = meal.strInstructions;
+    const ingredients = [];
+    const id = meal.idMeal;
+
+    //loopar igenom all strIngredients och strMeasure
+    for (let i = 1; i <= 20; i++) {
+      const ingredient = meal[`strIngredient${i}`];
+      const measure = meal[`strMeasure${i}`];
+
+      if (ingredient && ingredient.trim()) {
+        ingredients.push(`${measure} ${ingredient}`.trim());
+      }
+    }
+    setId(id);
+    setSearchedIngredients(ingredients);
+    setSearchedInstructions(instructions);
+    setSearchedImage(meal.strMealThumb);
+    setName(meal.strMeal);
+
+    console.log(ingredients);
+    console.log(instructions);
+    console.log(meal.strMealThumb);
   }
 
   return (
@@ -96,9 +122,29 @@ export default function Home() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full rounded-l-xl bg-gray-100 border-transparent"
           />
-          <button onClick={searchRecipe} id="searchButton" className="rounded-r-xl border-transparent">
+
+          <button onClick={() => {
+              searchRecipe();
+              setSearchButtonClicked(true);
+            }} id="searchButton" className="rounded-r-xl border-transparent">
             Search
           </button>
+          {searchButtonClicked && (
+            <Link href={id && `/recipe/${id}`}>
+              <div className="flex bg-slate-400">
+                <div>
+                  <img
+                    src={searchedImage}
+                    alt="Search Result"
+                    className="h-16"
+                  />
+                </div>
+                <div>
+                  <h2>{name}</h2>
+                </div>
+              </div>
+            </Link>
+          )}
         </div>
         <h1>My recipe list</h1>
         <h1>Recipes and stuff</h1>
