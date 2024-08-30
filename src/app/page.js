@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Login from "./LogIn";
 import RecipeCard from "./component/RecipeCard";
 import Link from "next/link";
+import Categories from "./component/Categories";
 
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -135,10 +136,7 @@ export default function Home() {
           </div>
         </nav>
         <div className="grid grid-cols-2"></div>
-        <side className="bg-blue-400 flex-col">Categories
-        <p>hej</p>
-        <p>hej</p>
-        </side>
+        <Categories/>
         <div className="flex justify-center flex-col items-center px-40">
           <div className="flex flex-row mt-20 h-16 justify-center w-96">
             <input
