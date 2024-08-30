@@ -76,15 +76,16 @@ export default function Home() {
         </div>
       </nav>
       <div className="flex justify-center flex-col items-center px-40">
-        <div className="flex flex-row pt-20">
+        <div className="flex flex-row mt-20 h-16 justify-center w-96 rounded-xl">
           <input
             type="text"
             name="search"
             id="search"
             placeholder="search any recipe..."
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full rounded-l-xl border-transparent bg-gray-100"
           />
-          <button onClick={searchRecipe} id="searchButton">
+          <button onClick={searchRecipe} id="searchButton" className="rounded-r-xl border-transparent">
             Search
           </button>
         </div>
