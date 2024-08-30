@@ -14,6 +14,7 @@ export default function Home() {
   const [image, setImage] = useState(placeholderImage);
   const [errorMessage, setErrorMessage] = useState("");
   const [valid, setValid] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   //ladda upp bild
   function uploadImage(e) {
@@ -31,7 +32,7 @@ export default function Home() {
   }
 
   //submitta receptet och skapa kort
-  function SubmitRecipe(e) {
+  function submitRecipe(e) {
     e.preventDefault();
 
     if (name === "" || ingredients === "" || instruction === "") {
@@ -45,6 +46,19 @@ export default function Home() {
 
     // }
   }
+
+  //sök på recept
+
+  async function searchRecipe() {
+    const response = await fetch(
+      `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`
+    );
+    const data = await response.json();
+
+    console.log(data);
+    const meal = data.meals[0];
+  }
+
   return (
     <main>
       <div>
@@ -53,8 +67,11 @@ export default function Home() {
           name="search"
           id="search"
           placeholder="search any recipe..."
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button id="searchButton">Search</button>
+        <button onClick={searchRecipe} id="searchButton">
+          Search
+        </button>
         <h1>Recipes and stuff</h1>
         <div>
           <form id="form">
@@ -89,7 +106,7 @@ export default function Home() {
             <h2>Image</h2>
             <input type="file" id="image" accept="image/*" />
 
-            <button onClick={(uploadImage, SubmitRecipe)} id="save">
+            <button onClick={(uploadImage, submitRecipe)} id="save">
               Save Recipe
             </button>
             {errorMessage !== "" && <p>{errorMessage}</p>}
@@ -110,3 +127,41 @@ export default function Home() {
     </main>
   );
 }
+
+//funktion för att söka på recept
+// document
+//   .getElementById("searchButton")
+//   .addEventListener("click", async function () {
+//     const searchName = document.getElementById("search").value;
+
+//     const response = await fetch(
+//       `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchName}`
+//     );
+//     const data = await response.json();
+//     console.log(data);
+//     const meal = data.meals[0];
+//     const instructions = meal.strInstructions;
+//     const ingredients = [];
+
+//     //loopar igenom all strIngredients och strMeasure
+//     for (let i = 1; i <= 20; i++) {
+//       const ingredient = meal[`strIngredient${i}`];
+//       const measure = meal[`strMeasure${i}`];
+
+//       if (ingredient && ingredient.trim()) {
+//         ingredients.push(`${measure} ${ingredient}`.trim());
+//       }
+//     }
+
+//     searchedIngredients = ingredients;
+//     searchedInstructions = instructions;
+//     searchedImage = meal.strMealThumb;
+
+//     document.querySelector("form textarea").textContent = ingredients;
+//     document.querySelector("form textarea:nth-of-type(2)").textContent =
+//       instructions;
+//     document.querySelector("form input").value = searchName;
+
+//     console.log("ingredients are:", ingredients);
+//     console.log("Instructions are:", instructions);
+//   });
