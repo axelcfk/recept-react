@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Login from "./LogIn";
 import RecipeCard from "./component/RecipeCard";
 import Link from "next/link";
+import RandomRecipe from "./component/Random";
 
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -242,6 +243,7 @@ export default function Home() {
               })
             : ""}
         </div>
+        <RandomRecipe />
       </div>
     </main>
   );
