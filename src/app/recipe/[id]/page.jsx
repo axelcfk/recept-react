@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 
 import { useEffect, useState, useRef } from "react";
 
-export default function RecipePage() {
+export default function Page() {
   const params = useParams();
   const recipeId = params.id;
   const router = useRouter();
