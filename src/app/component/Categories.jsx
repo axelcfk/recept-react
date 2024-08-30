@@ -24,13 +24,13 @@ export default function Categories() {
   }, []);
 
   return (
-    <div>
-      <h1>Categories</h1>
-      <ul>
-        {categories.map((category) => (
+    <div className="w-1/4 bg-gray-100 p-4">
+        <h1>Categories</h1>
+        <ul>
+          {categories.map((category) => (
             <li key={category.idCategory}>{category.strCategory}</li>
-        ))}
-      </ul>
+          ))}
+        </ul>
     </div>
   );
 }
