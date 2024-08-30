@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import Login from "./LogIn";
 
+import { useState } from "react";
+import RecipeCard from "./component/RecipeCard";
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
   const placeholderImage = "spaghetti-bolognese.jpg";
@@ -15,6 +17,7 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [valid, setValid] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [myRecipes, setMyRecipes] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
 
@@ -49,6 +52,18 @@ export default function Home() {
     if (name === "" || ingredients === "" || instruction === "") {
       setValid(false);
       setErrorMessage("All fields are required");
+    }
+
+    console.log("data är", name, ingredients, instruction);
+
+    setMyRecipes((prevMyRecipes) => [
+      ...prevMyRecipes,
+      { name: name, ingredients: ingredients, instruction: instruction, imgSrc: uploadedImage },
+    ]);
+    // if (valid) {
+    //   createRecipeCard(name, ingredients, instruction, image);
+
+    // }
     } else {
       setValid(true);
       setErrorMessage("");
@@ -85,15 +100,16 @@ export default function Home() {
         </div>
       </nav>
       <div className="flex justify-center flex-col items-center px-40">
-        <div className="flex flex-row pt-20">
+        <div className="flex flex-row mt-20 h-16 justify-center w-96 rounded-xl">
           <input
             type="text"
             name="search"
             id="search"
             placeholder="Search any recipe..."
             onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full rounded-l-xl border-transparent bg-gray-100"
           />
-          <button onClick={searchRecipe} id="searchButton">
+          <button onClick={searchRecipe} id="searchButton" className="rounded-r-xl border-transparent">
             Search
           </button>
         </div>
@@ -101,7 +117,13 @@ export default function Home() {
         <h1>Recipes and stuff</h1>
         <h1>Add a new recipe</h1>
         <div>
-          <form id="form">
+          <form
+            onSubmit={(e) => {
+              submitRecipe(e);
+
+            }}
+            id=""
+          >
             <div>
               <h2>Name</h2>
               <input
@@ -138,6 +160,7 @@ export default function Home() {
               onChange={uploadImage}
             />
 
+            <button type="submit" id="save">
             <button onClick={submitRecipe} id="save">
               Save Recipe
             </button>
@@ -151,7 +174,25 @@ export default function Home() {
           isLoggedIn={isLoggedIn}
         />
 
-        <div id="recipeCardsContainer"></div>
+        <div className="flex w-[80%] gap-4">
+          {myRecipes.length > 0
+            ? myRecipes.map((myRecipe, index) => {
+                return (
+                  <RecipeCard
+                    key={index}
+                    name={myRecipe.name}
+                    ingredients={myRecipe.ingredients}
+                    instruction={myRecipe.instruction}
+                    imgSrc={myRecipe.imgSrc}
+                  />
+                );
+              })
+            : ""}
+          {/*  <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/>
+          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/>
+          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/>
+          <RecipeCard name={"pancakes"} ingredients={"2 eggs 5 cups flour"} instruction={"mix the ingredients and flip the pancakes"}/> */}
+        </div>
       </div>
     </main>
   );
