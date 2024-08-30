@@ -46,7 +46,7 @@ export default function Home() {
 
     setMyRecipes((prevMyRecipes) => [
       ...prevMyRecipes,
-      { name: name, ingredients: ingredients, instruction: instruction },
+      { name: name, ingredients: ingredients, instruction: instruction, imgSrc: uploadedImage },
     ]);
     // if (valid) {
     //   createRecipeCard(name, ingredients, instruction, image);
@@ -156,6 +156,7 @@ export default function Home() {
                     name={myRecipe.name}
                     ingredients={myRecipe.ingredients}
                     instruction={myRecipe.instruction}
+                    imgSrc={myRecipe.imgSrc}
                   />
                 );
               })
