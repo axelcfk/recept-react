@@ -21,6 +21,10 @@ export default function Home() {
 
       reader.readAsDataURL(file);
     }
-    return <main></main>;
+    return (
+      <main>
+        <h1>hahah</h1>
+      </main>
+    );
   }
 }
