@@ -3,18 +3,17 @@ import { useState, useEffect } from "react";
 import Login from "./LogIn";
 import RecipeCard from "./component/RecipeCard";
 
-import { useState } from "react";
 import Link from "next/link";
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
   const placeholderImage = "spaghetti-bolognese.jpg";
+
   const [searchedIngredients, setSearchedIngredients] = useState(null);
   const [searchedInstructions, setSearchedInstructions] = useState(null);
   const [searchedImage, setSearchedImage] = useState(null);
   const [name, setName] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [instruction, setInstruction] = useState("");
-  const [image, setImage] = useState(placeholderImage);
   const [errorMessage, setErrorMessage] = useState("");
   const [valid, setValid] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");

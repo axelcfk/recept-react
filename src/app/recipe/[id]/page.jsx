@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 
 import { useEffect, useState, useRef } from "react";
 
-export default function MoviePage() {
+export default function RecipePage() {
   const params = useParams();
   const recipeId = params.id;
   const router = useRouter();
@@ -13,11 +13,11 @@ export default function MoviePage() {
     router.back();
   };
 
-  useEffect(() => {
-    async function fetchRecipeDetails(recipeId) {
-      const response = await "";
-    }
-  }, []);
+  //   useEffect(() => {
+  //     async function fetchRecipeDetails(recipeId) {
+  //       const response = await "";
+  //     }
+  //   }, []);
 
   return (
     <div>
