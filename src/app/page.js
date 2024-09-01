@@ -28,6 +28,7 @@ export default function Home() {
   //const [myRecipes, setMyRecipes] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [favorites, setFavorites] = useState([]);
 
   const { myRecipes, addNewRecipe } = useContext(MyRecipesContext);
 
@@ -125,11 +126,11 @@ export default function Home() {
 
   return (
     <main>
-      <nav className="bg-green-200 text-3xl px-10 flex justify-between">
-        <h1>Best Recipes</h1>
+      <nav className="bg-[#a7d4c3] text-2xl px-10 flex justify-between items-center">
+        <h1>Chef's Palette</h1>
         <div className="flex flex-row space-x-4">
           <Link href="/">
-            <button>
+            <button className="bg-transparent border-none">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="45"
@@ -141,7 +142,7 @@ export default function Home() {
             </button>
           </Link>
           <Link href="/">
-            <button>
+            <button className="bg-transparent border-none">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="45"
@@ -160,7 +161,8 @@ export default function Home() {
 
         <div className="flex-1 p-8">
           <div className="flex justify-center flex-col items-center">
-            <div className="flex flex-row mt-20 h-16 justify-center w-96">
+            <p>My name is Micke, I'm a chef. Welcome to my recipes. </p>
+            <div className="flex flex-row mt-12 h-20 justify-center w-96">
               <input
                 type="text"
                 name="search"
@@ -193,26 +195,26 @@ export default function Home() {
                     <div>
                       <h2>{searchedName}</h2>
                     </div>
-                    <button
-                      onClick={() => {
-                        addNewRecipe(
-                          searchedName,
-                          searchedInstructions,
-                          searchedIngredients,
-                          searchedImage,
-                          searchedId,
-                          null
-                        );
-                      }}
-                    >
-                      Save Recipe
-                    </button>
                   </div>
+                  <button
+                    onClick={() => {
+                      addNewRecipe(
+                        searchedName,
+                        searchedInstructions,
+                        searchedIngredients,
+                        searchedImage,
+                        searchedId,
+                        null
+                      );
+                    }}
+                  >
+                    Save Recipe
+                  </button>
                 </Link>
               )}
             </div>
-            <h1>Recipes and stuff</h1>
-            <AllRecipes/>
+            <h1 className="pt-12">Chef's Recipes</h1>
+            <AllRecipes />
             <h1>Add a new recipe</h1>
             <div>
               <form onSubmit={submitRecipe} id="">

@@ -27,15 +27,15 @@ export default function Categories() {
 
   return (
     <div className="w-1/6 bg-gray-100">
-      <h1 className="text-xl pl-3 pt-3">Categories</h1>
+      <h1 className="text-xl pl-3 pt-3 underline">Categories</h1>
       <ul className="list-none p-4">
         {categories.map((category) => (
           <li
             key={category.idCategory}
-            className="py-1 hover:underline cursor-pointer"
+            className="py-1"
           >
             {/* Varje listitem blir en länk till respektive kategorisida.  */}
-            <Link href={`/categories/${category.strCategory}`}>
+            <Link href={`/categories/${category.strCategory}`} className="text-black text-lg no-underline hover:cursor-pointer hover:underline">
               {category.strCategory}
             </Link>
           </li>
