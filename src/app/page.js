@@ -6,6 +6,7 @@ import Link from "next/link";
 import { MyRecipesContext } from "../../myRecipesContext";
 import RandomRecipe from "./component/Random";
 import Categories from "./component/Categories";
+import AllRecipes from "./component/AllRecipes";
 
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -154,12 +155,11 @@ export default function Home() {
           </Link>
         </div>
       </nav>
-
       <div className="flex">
         <Categories />
 
         <div className="flex-1 p-8">
-          <div className="flex justify-center flex-col items-center px-40">
+          <div className="flex justify-center flex-col items-center">
             <div className="flex flex-row mt-20 h-16 justify-center w-96">
               <input
                 type="text"
@@ -211,8 +211,8 @@ export default function Home() {
                 </Link>
               )}
             </div>
-            <h1>My recipe list</h1>
             <h1>Recipes and stuff</h1>
+            <AllRecipes/>
             <h1>Add a new recipe</h1>
             <div>
               <form onSubmit={submitRecipe} id="">
