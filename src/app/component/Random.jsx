@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 const RandomRecipe = () => {
-  const [random, setRandom] = useState(null); // Tillstånd för att lagra receptet
-  const [loading, setLoading] = useState(false); // Tillstånd för att hantera laddning
+  const [random, setRandom] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const getRandomRecipe = async () => {
     setLoading(true);

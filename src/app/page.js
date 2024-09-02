@@ -5,6 +5,8 @@ import RecipeCard from "./component/RecipeCard";
 import Link from "next/link";
 import { MyRecipesContext } from "../../myRecipesContext";
 import RandomRecipe from "./component/Random";
+import Categories from "./component/Categories";
+import AllRecipes from "./component/AllRecipes";
 
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -26,7 +28,7 @@ export default function Home() {
   //const [myRecipes, setMyRecipes] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
-  
+
   const { myRecipes, addNewRecipe } = useContext(MyRecipesContext);
 
   useEffect(() => {
@@ -68,7 +70,6 @@ export default function Home() {
 
     console.log("data är", name, ingredients, instruction);
 
-
     const allMyRecipeIndexes = [];
 
     myRecipes.forEach((myRecipe) => {
@@ -76,11 +77,11 @@ export default function Home() {
         allMyRecipeIndexes.push(myRecipe.myRecipeIndex);
       }
     });
-    
+
     let newIndex = allMyRecipeIndexes.length + 1; // apparently index 0 doesnt work for routing
-    
+
     console.log(newIndex);
-    
+
     addNewRecipe(name, instruction, ingredients, uploadedImage, null, newIndex);
     // uploadedImage is null if none uploaded
     /* setMyRecipes((prevMyRecipes) => [
@@ -123,12 +124,12 @@ export default function Home() {
   }
 
   return (
-    <main className="">
-      <nav className="bg-green-200 text-3xl px-10 flex justify-between">
-        <h1>Best Recipes</h1>
+    <main>
+      <nav className="bg-[#a7d4c3] text-2xl px-10 flex justify-between items-center">
+        <h1>Chef's Palette</h1>
         <div className="flex flex-row space-x-4">
           <Link href="/">
-            <button>
+            <button className="bg-transparent border-none">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="45"
@@ -140,7 +141,7 @@ export default function Home() {
             </button>
           </Link>
           <Link href="/">
-            <button>
+            <button className="bg-transparent border-none">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="45"
@@ -154,117 +155,137 @@ export default function Home() {
           </Link>
         </div>
       </nav>
-      <div className="flex justify-center flex-col items-center px-40">
-        <div className="flex flex-row mt-20 h-16 justify-center w-96">
-          <input
-            type="text"
-            name="search"
-            id="search"
-            placeholder="Search any recipe..."
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-l-xl bg-gray-100 border-transparent"
-          />
+      <div className="flex">
+        <Categories />
 
-          <button
-            onClick={() => {
-              searchRecipe();
-              setSearchButtonClicked(true);
-            }}
-            id="searchButton"
-            className="rounded-r-xl border-transparent"
-          >
-            Search
-          </button>
-          {searchButtonClicked && (
-            <Link href={searchedId && `/recipe/${searchedId}`}>
-              <div className="flex bg-slate-400">
-                <div>
-                  <img
-                    src={searchedImage}
-                    alt="Search Result"
-                    className="h-16"
-                  />
-                </div>
-                <div>
-                  <h2>{searchedName}</h2>
-                </div>
-                <button onClick={() => {addNewRecipe(searchedName, searchedInstructions, searchedIngredients, searchedImage, searchedId, null)}}>Save Recipe</button>
-              </div>
-            </Link>
-          )}
-        </div>
-        <h1>My recipe list</h1>
-        <h1>Recipes and stuff</h1>
-        <h1>Add a new recipe</h1>
-        <div>
-          <form onSubmit={submitRecipe} id="">
-            <div>
-              <h2>Name</h2>
+        <div className="flex-1 p-8">
+          <div className="flex justify-center flex-col items-center">
+            <p>My name is Micke, I'm a chef. Welcome to my recipes. </p>
+            <div className="flex flex-row mt-12 h-20 justify-center w-96">
               <input
                 type="text"
-                id="name"
-                onChange={(e) => setName(e.target.value)}
-                value={name}
+                name="search"
+                id="search"
+                placeholder="Search any recipe..."
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full rounded-l-xl bg-gray-100 border-transparent"
               />
+
+              <button
+                onClick={() => {
+                  searchRecipe();
+                  setSearchButtonClicked(true);
+                }}
+                id="searchButton"
+                className="rounded-r-xl border-transparent"
+              >
+                Search
+              </button>
+              {searchButtonClicked && (
+                <Link href={searchedId && `/recipe/${searchedId}`}>
+                  <div className="flex bg-slate-400">
+                    <div>
+                      <img
+                        src={searchedImage}
+                        alt="Search Result"
+                        className="h-16"
+                      />
+                    </div>
+                    <div>
+                      <h2>{searchedName}</h2>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      addNewRecipe(
+                        searchedName,
+                        searchedInstructions,
+                        searchedIngredients,
+                        searchedImage,
+                        searchedId,
+                        null
+                      );
+                    }}
+                  >
+                    Save Recipe
+                  </button>
+                </Link>
+              )}
+            </div>
+            <h1 className="pt-12">Chef's Recipes</h1>
+            <AllRecipes />
+            <h1>Add a new recipe</h1>
+            <div>
+              <form onSubmit={submitRecipe} id="">
+                <div>
+                  <h2>Name</h2>
+                  <input
+                    type="text"
+                    id="name"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                  />
+                </div>
+
+                <h2>Ingredients</h2>
+                <textarea
+                  id="ingredients"
+                  cols="30"
+                  rows="10"
+                  onChange={(e) => setIngredients(e.target.value)}
+                  value={ingredients}
+                ></textarea>
+
+                <h2>Instruction</h2>
+                <textarea
+                  id="instruction"
+                  cols="30"
+                  rows="10"
+                  onChange={(e) => setInstruction(e.target.value)}
+                  value={instruction}
+                ></textarea>
+
+                <h2>Image</h2>
+                <input
+                  onChange={uploadImage}
+                  type="file"
+                  id="image"
+                  accept="image/*"
+                />
+
+                <button type="submit" id="save">
+                  Save Recipe
+                </button>
+                {errorMessage !== "" && <p>{errorMessage}</p>}
+              </form>
             </div>
 
-            <h2>Ingredients</h2>
-            <textarea
-              id="ingredients"
-              cols="30"
-              rows="10"
-              onChange={(e) => setIngredients(e.target.value)}
-              value={ingredients}
-            ></textarea>
-
-            <h2>Instruction</h2>
-            <textarea
-              id="instruction"
-              cols="30"
-              rows="10"
-              onChange={(e) => setInstruction(e.target.value)}
-              value={instruction}
-            ></textarea>
-
-            <h2>Image</h2>
-            <input
-              onChange={uploadImage}
-              type="file"
-              id="image"
-              accept="image/*"
+            <Login
+              setIsLoggedIn={setIsLoggedIn}
+              setUsername={setUsername}
+              isLoggedIn={isLoggedIn}
             />
 
-            <button type="submit" id="save">
-              Save Recipe
-            </button>
-            {errorMessage !== "" && <p>{errorMessage}</p>}
-          </form>
+            <div className="flex gap-4 w-[80%] p-12 h-80 overflow-x-scroll flex-nowrap items-center">
+              {myRecipes.length > 0
+                ? myRecipes.map((myRecipe, index) => {
+                    return (
+                      <RecipeCard
+                        key={index}
+                        name={myRecipe.name}
+                        ingredients={myRecipe.ingredients}
+                        instruction={myRecipe.instruction}
+                        imgSrc={myRecipe.imgSrc}
+                        apiIndex={myRecipe.apiIndex}
+                        myRecipeIndex={myRecipe.myRecipeIndex}
+                      />
+                    );
+                  })
+                : ""}
+            </div>
+            <RandomRecipe />
+          </div>
         </div>
-
-        <Login
-          setIsLoggedIn={setIsLoggedIn}
-          setUsername={setUsername}
-          isLoggedIn={isLoggedIn}
-        />
-
-        <div className="flex gap-4 w-[80%] p-12 h-80 overflow-x-scroll flex-nowrap items-center">
-          {myRecipes.length > 0
-            ? myRecipes.map((myRecipe, index) => {
-                return (
-                  <RecipeCard
-                    key={index}
-                    name={myRecipe.name}
-                    ingredients={myRecipe.ingredients}
-                    instruction={myRecipe.instruction}
-                    imgSrc={myRecipe.imgSrc}
-                    apiIndex={myRecipe.apiIndex}
-                    myRecipeIndex={myRecipe.myRecipeIndex}
-                  />
-                );
-              })
-            : ""}
-        </div>
-        <RandomRecipe />
       </div>
     </main>
   );
