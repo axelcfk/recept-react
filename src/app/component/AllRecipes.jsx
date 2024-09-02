@@ -31,6 +31,11 @@ export default function AllRecipes() {
     setFavorites([...favorites, recipe]);
   }
 
+  const removeFromFavorites = (recipe) => {
+    const updatedFavorites = favorites.filter((fav) => fav.id!== recipe.id);
+    setFavorites(updatedFavorites);
+  }
+
   return (
     <div>
      <ul className="grid grid-cols-5">
@@ -56,6 +61,7 @@ export default function AllRecipes() {
               alt="Picture unavailable"
             />
             <h2 className="text-sm leading-tight">{favorite.title}</h2>
+            <button onClick={() => removeFromFavorites(favorite)}>Remove</button>
           </li>
         ))}
       </ul>
