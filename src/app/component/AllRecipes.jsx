@@ -15,6 +15,7 @@ export default function AllRecipes() {
         );
         const result = await response.json();
         if (response.ok) {
+            // fyll arrayen med datan
           setRecipes(result.results);
         }
         console.log(result);
@@ -29,6 +30,16 @@ export default function AllRecipes() {
 
   const addToFavorites = (recipe) => {
     setFavorites([...favorites, recipe]);
+  }
+
+  const removeFromFavorites = (recipe) => {
+    // skapar en ny lista (updatedFavorites) med alla recept förutom
+    // det aktuella id:et
+    // fav.id är det aktuella receptet i favorit listan
+    // recipe.id är receptet man vill ta bort
+    // alla id:en som inte matchar det aktuella är kvar i listan.
+    const updatedFavorites = favorites.filter((fav) => fav.id!== recipe.id);
+    setFavorites(updatedFavorites);
   }
 
   return (
@@ -56,6 +67,7 @@ export default function AllRecipes() {
               alt="Picture unavailable"
             />
             <h2 className="text-sm leading-tight">{favorite.title}</h2>
+            <button onClick={() => removeFromFavorites(favorite)}>Remove</button>
           </li>
         ))}
       </ul>

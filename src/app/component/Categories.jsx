@@ -14,6 +14,7 @@ export default function Categories() {
         );
         const result = await response.json();
         if (response.ok) {
+            // fyll arrayen med datan.
           setCategories(result.categories);
         }
         console.log(result);
