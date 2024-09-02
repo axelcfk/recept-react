@@ -13,20 +13,37 @@ export function MyRecipesContextProvider({children}) {
       { name, ingredients, instruction, imgSrc, apiIndex, myRecipeIndex},
     ]);
   }
-
-  function deleteRecipe(id) {
+ 
+  function deleteRecipe(id) { // separera apiIndex och myRecipeIndex?
     setMyRecipes((prevMyRecipes) =>
-      prevMyRecipes.filter((recipe) => (recipe.myRecipeIndex !== id) )
+      prevMyRecipes.filter((recipe) => (recipe.myRecipeIndex != id) )
     );
-    // har inte löst detta korrekt, apiIndex kan råka vara samma som myRecipeIndex
+    // har inte löst detta korrekt, apiIndex kan råka vara samma som myRecipeIndex?
     setMyRecipes((prevRecipes) =>
-      prevRecipes.filter((recipe) => recipe.apiIndex !== id)
+      prevRecipes.filter((recipe) => recipe.apiIndex != id)
     );
+  }
+
+  function editRecipe(name, ingredients, instruction, imgSrc, apiIndex, myRecipeIndex) {
+    setMyRecipes(prevMyRecipes => 
+      prevMyRecipes.map((recipe) => {
+        if (recipe.myRecipeIndex == myRecipeIndex || recipe.apiIndex == apiIndex) {
+          return {...recipe, 
+            name: name,
+            ingredients: ingredients,
+            instruction: instruction,
+            imgSrc: imgSrc,
+            // indexes remain the same, dont have to change
+          }
+        }
+        return recipe;
+      })
+    )
   }
 
   return (
 
-    <MyRecipesContext.Provider value={{myRecipes, addNewRecipe, deleteRecipe}}>
+    <MyRecipesContext.Provider value={{myRecipes, addNewRecipe, deleteRecipe, editRecipe}}>
       {children}
     </MyRecipesContext.Provider>
   )

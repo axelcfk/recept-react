@@ -267,15 +267,15 @@ export default function Home() {
             />
 
             <div className="flex gap-4 w-[80%] p-12 h-80 overflow-x-scroll flex-nowrap items-center">
-              {myRecipes.length > 0
+              {myRecipes && myRecipes.length > 0
                 ? myRecipes.map((myRecipe, index) => {
                     return (
                       <RecipeCard
                         key={index}
-                        name={myRecipe.name}
-                        ingredients={myRecipe.ingredients}
-                        instruction={myRecipe.instruction}
-                        imgSrc={myRecipe.imgSrc}
+                        inititalName={myRecipe.name}
+                        initialIngredients={myRecipe.ingredients}
+                        initialInstruction={myRecipe.instruction}
+                        initialImgSrc={myRecipe.imgSrc}
                         apiIndex={myRecipe.apiIndex}
                         myRecipeIndex={myRecipe.myRecipeIndex}
                       />
