@@ -12,9 +12,7 @@ export default function Home() {
   const placeholderImage = "spaghetti-bolognese.jpg";
   const [searchedIngredients, setSearchedIngredients] = useState(null);
   const [searchedInstructions, setSearchedInstructions] = useState(null);
-  const [searchedName, setSearchedName] = useState(null);
   const [searchedImage, setSearchedImage] = useState(null);
-  const [searchedId, setSearchedId] = useState("null");
   const [name, setName] = useState("");
   const [searchedName, setSearchedName] = useState("");
   const [ingredients, setIngredients] = useState("");
