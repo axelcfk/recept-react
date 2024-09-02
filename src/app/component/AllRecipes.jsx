@@ -32,6 +32,11 @@ export default function AllRecipes() {
   }
 
   const removeFromFavorites = (recipe) => {
+    // skapar en ny lista (updatedFavorites) med alla recept förutom
+    // det aktuella id:et
+    // fav.id är det aktuella receptet i favorit listan
+    // recipe.id är receptet man vill ta bort
+    // alla id:en som inte matchar det aktuella är kvar i listan.
     const updatedFavorites = favorites.filter((fav) => fav.id!== recipe.id);
     setFavorites(updatedFavorites);
   }
