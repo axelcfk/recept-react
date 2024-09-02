@@ -28,7 +28,6 @@ export default function Home() {
   //const [myRecipes, setMyRecipes] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
-  const [favorites, setFavorites] = useState([]);
 
   const { myRecipes, addNewRecipe } = useContext(MyRecipesContext);
 
