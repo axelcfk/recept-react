@@ -33,7 +33,7 @@ export default function AllRecipes() {
 
   return (
     <div>
-      <ul className="grid grid-cols-5">
+     <ul className="grid grid-cols-5">
         {recipes.map((recipe) => (
           <li key={recipe.id} className="list-none">
             <img
@@ -42,12 +42,12 @@ export default function AllRecipes() {
               alt="Picture unavailable"
             />
             <h2 className="text-sm leading-tight">{recipe.title}</h2>
-            <button onClick={addToFavorites}>Add Favorite</button>
+            <button onClick={() => addToFavorites(recipe)}>Add Favorite</button>
           </li>
         ))}
       </ul>
       <h1>My Favorite Recipes</h1>
-      <ul>
+      <ul className="grid grid-cols-5">
         {favorites.map((favorite) => (
           <li key={favorite.id} className="list-none">
             <img
