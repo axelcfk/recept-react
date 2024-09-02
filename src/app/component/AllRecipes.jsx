@@ -15,6 +15,7 @@ export default function AllRecipes() {
         );
         const result = await response.json();
         if (response.ok) {
+            // fyll arrayen med datan
           setRecipes(result.results);
         }
         console.log(result);
